@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,20 @@ import android.widget.LinearLayout;
 import com.example.josemanuel.centralicedtests.R;
 import com.example.josemanuel.centralicedtests.reflexes.Reflexes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by JoseManuel on 20/06/2016.
  */
 public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.ColorsViewHolder> implements View.OnClickListener {
-    Integer[] colors ;
+    List<ColorDrawable> colors ;
+    int i;
 
     View.OnClickListener lister;
     Reflexes mainClass;
 
-    public ColorsAdapter(Integer[] c, Reflexes mainClass){
+    public ColorsAdapter(List<ColorDrawable> c, Reflexes mainClass){
         colors=c;
         this.mainClass = mainClass;
     }
@@ -39,15 +44,15 @@ public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.ColorsView
 
     @Override
     public void onBindViewHolder(ColorsViewHolder holder, int position) {
-        int intColor = colors[position];
+        ColorDrawable colorDrawable = colors.get(position);
 
-        holder.bindColor(intColor);
+        holder.bindColor(colorDrawable);
 
     }
 
     @Override
     public int getItemCount() {
-        return colors.length;
+        return colors.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -58,19 +63,15 @@ public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.ColorsView
     public void onClick(View v) {
         if(lister!=null){
             lister.onClick(v);
-            refillGrid();
-            this.notifyDataSetChanged();
         }
     }
-    private void refillGrid() {
-        colors = new Integer[16];
-        for(int i=0;i<16;i++){
-            colors[i] = 0xff0000ff;
-        }
-        int i = (int)(Math.random()*16);
-        colors[i] = 0xff00ff00;
 
-        mainClass.setI(i);
+    /*public void setColors(List<Integer>c){
+        this.colors=c;
+    }*/
+
+    public void printLog() {
+        Log.i("Colors in adapter",colors.toString());
     }
 
     public static class ColorsViewHolder extends RecyclerView.ViewHolder {
@@ -82,8 +83,7 @@ public class ColorsAdapter extends RecyclerView.Adapter<ColorsAdapter.ColorsView
             linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayaoutTableItem);
         }
 
-        public void bindColor(int i){
-            ColorDrawable colorDrawable = new ColorDrawable(i);
+        public void bindColor(ColorDrawable colorDrawable){
             linearLayout.setBackground(colorDrawable);
         }
     }

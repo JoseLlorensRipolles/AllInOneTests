@@ -1,5 +1,6 @@
 package com.example.josemanuel.centralicedtests.reflexes;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 import com.example.josemanuel.centralicedtests.R;
 import com.example.josemanuel.centralicedtests.reflexes.model.ColorsAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Reflexes extends AppCompatActivity {
 
-    Integer[] colors;
+    List<ColorDrawable> colors;
     TextView correctTextView;
     RecyclerView mainRecyclerView;
     ColorsAdapter adapter;
@@ -47,9 +51,18 @@ public class Reflexes extends AppCompatActivity {
                 int positionPulsed = mainRecyclerView.getChildPosition(v);
                 if(positionPulsed==i){
                     correctTextView.setText("Correct!");
+                    fillGrid();
+                    /*Log.i("Colors in reflexes","ANTES"+colors.toString());
+                    adapter.printLog();
+                    fillGrid();
+                    Log.i("Colors in reflexes",colors.toString());
+                    adapter.printLog();*/
+                    //adapter.setColors(colors);
                 }else{
                     correctTextView.setText("False!");
                 }
+
+                adapter.notifyDataSetChanged();
             }
 
         };
@@ -57,23 +70,26 @@ public class Reflexes extends AppCompatActivity {
         adapter.setOnClickListener(listener);
     }
 
-    private void initGrid() {
-        colors = new Integer[16];
+
+    private void initGrid(){
+        colors = new ArrayList<>(16);
         for(int i=0;i<16;i++){
-            colors[i] = 0xff0000ff;
+            colors.add(new ColorDrawable(0xff0000ff));
         }
-
         i = (int)(Math.random()*16);
-        colors[i] = 0xff00ff00;
+        colors.set(i,new ColorDrawable(0xff00ff00));
     }
 
-    public void refillGrid() {
-        initGrid();
-        adapter.notifyDataSetChanged();
+    private void fillGrid() {
+        for(int i=0;i<16;i++){
+            colors.get(i).setColor(0xff0000ff);
+            //colors.add(new ColorDrawable(0xff0000ff));
+        }
+        i = (int)(Math.random()*16);
+        colors.get(i).setColor(0xff00ff00);
+
     }
 
 
-    public void setI(int i) {
-        this.i = i;
-    }
+
 }
