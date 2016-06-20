@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CentralicedTests</string>
+    <string name="slider">Seekbar test</string>
+    <string name="listView">List view test</string>
+    <string name="add">Add</string>
+    <string name="multiply">Multiply</string>
+    <string name="Divide">Divide</string>
+    <string name="invertRatio">Negative Ratio</string>
+    <string name="spinnerTest">Spinner Test</string>
+</resources>
